@@ -34,8 +34,9 @@ const { title } = Astro.props;
 	}
 	html {
 		font-family: system-ui, sans-serif;
-		background: #13151a;
-	}
+    background: #EEE8D5;
+    background-image: url('/noise.png');
+  }
 	code {
 		font-family:
 			Menlo,
@@ -47,4 +48,12 @@ const { title } = Astro.props;
 			Courier New,
 			monospace;
 	}
+
+  @font-face {
+    font-family: 'NexaRust';
+    font-style: normal;
+    font-weight: 100 900;
+    font-display: swap;
+    src: url('/fonts/NexaRustSlab.woff2') format('woff2');
+  }
 </style>
