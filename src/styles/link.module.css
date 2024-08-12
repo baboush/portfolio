@@ -1,0 +1,7 @@
+.nav_link {
+  color: black;
+  text-decoration: none;
+  font-family: NexaRust;
+  font-size: calc(4rem + 1.5vw);
+  padding: 0.5rem;
+}
