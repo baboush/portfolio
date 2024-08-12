@@ -17,6 +17,6 @@
   font-size: calc(2rem + 1vw);
   width: 100%;
   position: absolute;
-  left: 50%;
+  left: 42%;
   transform: translateX(-25%);
 }
