@@ -2,12 +2,14 @@
 import Layout from '../layouts/Layout.astro';
 import Link from '../components/Link';
 import Current from '../components/Current';
+import Path from '../components/Path';
 ---
 
 <Layout title="Welcome to Astro.">
 	<main>
     <Link href="/" name="home"/>
     <Current projectName="test"/>
+    <Path pathName="home"/>
 	</main>
 </Layout>
 

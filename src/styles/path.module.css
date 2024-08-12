@@ -1,0 +1,22 @@
+.path {
+  position: relative;
+  width: 20rem;
+}
+
+.path_svg {
+  width: 100%;
+  height: 100%;
+}
+
+.path_name {
+  color: #ff9d9b;
+  font-size: calc(2.5rem + 1vw);
+  font-weight: bold;
+  transform: rotate(-30deg);
+  text-transform: uppercase;
+  position: absolute;
+  transform-origin: 0 0;
+  transform: rotate(-45deg);
+  left: 20%;
+  top: 60%;
+}
