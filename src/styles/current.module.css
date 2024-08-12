@@ -1,0 +1,22 @@
+.box_current {
+  position: relative;
+  max-width: 40rem;
+  max-height: 30rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.img_current {
+  z-index: -1;
+  width: 100%;
+  height: 100%;
+}
+
+.current {
+  font-size: calc(2rem + 1vw);
+  width: 100%;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-25%);
+}
