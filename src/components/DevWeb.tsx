@@ -14,7 +14,7 @@ const DevWeb = () => {
       <span>P</span>
       <span>E</span>
       <span>U</span>
-      <span>P</span>
+      <span>R</span>
       <span></span>
       <hr />
       <span>W</span>
