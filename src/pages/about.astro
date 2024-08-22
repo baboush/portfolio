@@ -1,0 +1,99 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Logo from '../components/Logo.tsx';
+---
+
+<Layout title="À propos">
+  <main class="container">
+    <Logo />
+    <div class="path">
+      <img src="/public/about-path.svg" alt="" />
+    </div>
+
+    <div class="content">
+      <div class="content-img">
+        <img src="/public/logo.svg" alt="">
+      </div>
+      <div class="content-p">
+        <p>
+          Développeur web passionné qui vient de terminer une formation intensive en développement web. Au cours de ma formation, j'ai acquis des compétences solides en HTML, CSS, JavaScript, ainsi qu'en PHP et SQL. J'ai également une bonne compréhension des frameworks populaires tels que React.js et Symfony.
+          J'ai travaillé sur plusieurs projets pendant ma formation, ce qui m'a permis de mettre en pratique mes compétences et de gagner en expérience. J'ai une forte capacité à apprendre rapidement et à m'adapter à de nouvelles technologies et langages de programmation.
+        </p>
+        <div class="tech">
+          <div class="tech-list">
+            <h2>Competences</h2>
+            <ul>
+              <li>HTML</li>
+              <li>CSS</li>
+              <li>JavaScript / Typescript / Node</li>
+              <li>SQL</li>
+              <li>React.js</li>
+              <li>Angular</li>
+            </ul>
+          </div>
+          <a class="contact" href="/contact">
+            <img src="/public/btn-contact.svg" alt="">
+          </a>
+        </div>
+      </div>
+    </div>
+  </main>
+</Layout>
+
+<style>
+.container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1rem;
+  width: 100%;
+  max-height: 100%;
+
+  .path {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 999;
+  }
+
+  .content {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-evenly;
+    padding: 2rem;
+    .content-img {
+      width: 20%;
+      img {
+        width: 100%;
+      }
+    }
+    .content-p {
+      gap: 1rem;
+      width: 50%;
+      font-size: calc(0.8rem + 0.5vw);
+      font-family: 'Inter', sans-serif;
+      font-weight: bold;
+    }
+    .tech {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-evenly;
+      align-items: center;
+
+      h2 {
+        font-size: calc(1.5rem + 1vw);
+        font-family: 'NexaRust', sans-serif;
+      }
+      ul {
+        display: flex;
+        flex-direction: column;
+        list-style: none;
+        font-size: calc(0.6rem + 1vw);
+      }
+    }
+  }
+}
+</style>
