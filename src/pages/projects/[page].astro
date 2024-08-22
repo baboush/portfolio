@@ -6,6 +6,7 @@ import ProjectTitle from '../../components/ProjectTitle';
 import { Image } from 'astro:assets';
 import PaginatonPrev from '../../components/PaginationPrev';
 import LinkProject from '../../components/LinkProject';
+import NumberProject from '../../components/NumberProject';
 
 interface Project {
   id: number;
@@ -66,10 +67,9 @@ const { page } = Astro.props;
     <Logo/>
     {page.data.map ((project: Project) => (
     <div class="container">
-      <!--      <div class="container-project-id">
-        <span>{project.id}</span>
+      <div class="container-project-id">
+        <NumberProject projectId={project.id}/>
       </div>
-      -->
       <div class="container-project-title">
         <ProjectTitle projectName={project.title}/>
       </div>
@@ -101,7 +101,6 @@ main {
   align-items: center;
   justify-content: center;
   overflow-x: hidden;
-  width: 100%;
 
   .page-nav {
     display: flex;
@@ -134,11 +133,13 @@ main {
 
   .container {
     postiton: relative;
-    width: 100%;
     height: 100%;
+    width: 100%;
 
     .container-project-id {
       position: absolute;
+      right: 4rem;
+      top: 2rem;
     }
 
     .container-project-title {
