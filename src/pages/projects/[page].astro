@@ -1,0 +1,206 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Logo from '../../components/Logo';
+import Tech from '../../components/Tech';
+import ProjectTitle from '../../components/ProjectTitle';
+import { Image } from 'astro:assets';
+import PaginatonPrev from '../../components/PaginationPrev';
+import LinkProject from '../../components/LinkProject';
+import NumberProject from '../../components/NumberProject';
+
+interface Project {
+  id: number;
+  title: string;
+  content: string;
+  link: string;
+  tech: string;
+}
+
+export function getStaticPaths({paginate}) {
+  const  data  = [
+    {
+      id: 1,
+      title: 'Project title',
+      content: 'description',
+      link: '#',
+      img: '/public/img.png',
+      tech: 'JavaScript'
+    },
+    {
+      id: 2,
+      title: 'title2',
+      content: 'description',
+      link: '#',
+      img: '/public/img.png',
+      tech: 'lorem ipsum'
+    },
+    {
+      id: 3,
+      title: 'title3',
+      content: 'description',
+      link: '#',
+      img: '/public/img.png',
+      tech: 'JavaScript'
+    },
+  ]
+
+  return paginate(data, {pageSize: 1})
+}
+
+const { page } = Astro.props;
+---
+
+<Layout title="Projects">
+  <main>
+    {page.url.prev ? <a class="page-nav prev" href={page.url.prev}>
+      <span>P</span>
+      <span>R</span>
+      <span>E</span>
+      <span>V</span>
+    </a> : null}
+    {page.url.next ? <a class="page-nav next" href={page.url.next}>
+      <span>N</span>
+      <span>E</span>
+      <span>X</span>
+      <span>T</span>
+    </a> : null}
+    <Logo/>
+    {page.data.map ((project: Project) => (
+    <div class="container">
+      <div class="container-project-id">
+        <NumberProject projectId={project.id}/>
+      </div>
+      <div class="container-project-title">
+        <ProjectTitle projectName={project.title}/>
+      </div>
+      <div class="container-project-link">
+      </div>
+      <div class="container-content">
+        <Image src={project.img} alt={project.title}  width="650" height="420" />
+        <div class="container-content-description">
+          <h2 class="container-content-title">DESCRIPTION</h2>
+          <p>{project.content}</p>
+        </div>
+      </div>
+      <div class="container-content-tech">
+        <Tech techName={project.tech}/>
+      </div>
+      <div class="link-project">
+        <LinkProject link={project.link}/>
+      </div>
+    </div>
+    ))}
+  </main>
+</Layout>
+
+
+<style>
+main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow-x: hidden;
+
+  .page-nav {
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+    color: #000;
+  }
+
+  .page-nav.next {
+    position: absolute;
+    top: 50%;
+    right: 0;
+    padding: 2rem;
+    font-family: 'NexaRust';
+    font-size:calc(2rem + 1vw);
+    transform: translateY(-50%);
+  }
+
+  .page-nav.prev {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    padding: 2rem;
+    font-family: 'NexaRust';
+    font-size:calc(2rem + 1vw);
+    transform: translateY(-50%);
+  }
+
+
+
+  .container {
+    postiton: relative;
+    height: 100%;
+    width: 100%;
+
+    .container-project-id {
+      position: absolute;
+      right: 4rem;
+      top: 2rem;
+    }
+
+    .container-project-title {
+      position: absolute;
+      left: 30rem;
+      z-index: 999;
+    }
+
+    .container-project-link {
+      position: absolute;
+    }
+
+    .container-content {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-evenly;
+      padding: 2rem;
+
+      .container-content-description {
+        display: flex;
+        flex-direction: column;
+
+        .container-content-title {
+          font-size: 5rem;
+          font-weight: bold;
+          font-family: 'NexaRust';
+          margin: 0px;
+        }
+
+        p {
+          font-size: 1.5rem;
+        }
+      }
+    }
+
+    .container-content-tech {
+      position: absolute;
+      width: 100%;
+      left: 40rem;
+      bottom: 4rem;
+      z-index: 999;
+    }
+
+    .link-project {
+      position: absolute;
+      right: 10rem;
+      z-index: 999;
+    }
+  }
+}
+@media (max-width: 1921px) {
+  main {
+    .container-content {
+      width: 100%;
+      padding: 0;
+    }
+    .container-content-tech {
+      position: absolute;
+      width: 100%;
+      left: 50%;
+    }
+  }
+}
+</style>
