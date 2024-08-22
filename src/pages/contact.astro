@@ -1,0 +1,176 @@
+---
+import Layout from '../layouts/Layout.astro'
+import Path from '../components/Path'
+import Logo from '../components/Logo'
+
+if (Astro.request.method === "POST"){
+
+  try {
+    const body = await Astro.request.formData();
+    const name = body.get("name");
+    const email = body.get("email");
+    const message = body.get("message");
+    return Astro.redirect("/");
+  } catch (error) {
+
+    Astro.redirect("/contact");
+    console.error(error);
+  }
+}
+---
+<Layout title="Contact">
+  <main class="main">
+    <Logo/>
+    <div class="path">
+      <img src="/public/path-contact.svg" alt="">
+    </div>
+    <div class="container">
+      <form class="form-content" method="POST">
+        <label class="form-content-field" for="name">
+          Nom
+          <input 
+            class="form-content-field-input"
+            type="text"
+            name="name"
+            value="" 
+            required
+            minlength="3"
+            maxlength="40"
+          >
+        </label>
+        <label class="form-content-field"  for="email">
+          Mail
+          <input class="form-content-field-input" type="email" name="email" value="" required>
+        </label>
+        <label class="form-content-field" for="message">
+          Message
+          <textarea
+            class="form-content-field-input textarea"
+            name="message"
+            required
+            minlength="50"
+            maxlength="500"
+            rows="4"
+            cols="80"
+          >
+          </textarea>
+        </label>
+        <button class="form-content-btn" type="submit">
+          <img src="/public/current.svg" alt="">
+          <span class="btn-send">Envoyer</span>
+        </button>
+      </form>
+      <div class="social-media">
+        <span>arnaud.roche.26@gmail.com</span>
+        <a href="#">Linkedin</a>
+        <div class="social-media-name">
+          <img src="/public/social.svg" alt="">
+        </div>
+      </div>
+    </div>
+  </main>
+</Layout>
+
+<style>
+.main {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  gap: 8rem;
+
+  .path {
+    position: absolute;
+    left: 2rem;
+    top: -2rem;
+    z-index: 9999;
+  }
+  .container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items:start;
+    gap: 8rem;
+    .form-content {
+      display: flex;
+      flex-direction: column;
+      height: auto;
+      max-width: 40%;
+      gap: 2rem;
+      .form-content-field {
+        display: flex;
+        flex-direction: column;
+        font-family: 'NexaRust', sans-serif;
+        font-size: calc(1rem + 1vw);
+
+        .form-content-field-input {
+          padding: 0.5rem;
+          font-family: 'Roboto', sans-serif;
+          font-size: calc(0.6rem + 0.7vw);
+          height: 3.5vh;
+          border: none;
+          border-bottom: 2px solid #000;
+          -webkit-backdrop-filter: blur(10px);
+          backdrop-filter: blur(10px);
+          background: inherit;
+          outline: none;
+          border-radius: 10px;
+        }
+        .form-content-field-input.textarea {
+          height: 100%;
+        }
+      }
+      .form-content-btn {
+        background: inherit;
+        border: none;
+        position: relative;
+
+        .btn-send {
+          font-family: 'NexaRust', sans-serif;
+          text-transform: uppercase;
+          position: absolute;
+          font-size: calc(1rem + 1vw);
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+        }
+      }
+      .form-content-btn:hover {
+        transform: scale(1.1);
+        transition: 0.2s;
+      }
+
+      .form-content-btn:disabled {
+        color: #000;
+      }
+    }
+    .social-media {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      font-family: 'NexaRust', sans-serif;
+      font-size: calc(1rem + 1vw);
+      a {
+        text-decoration: none;
+        color: #000;
+      }
+    }
+  }
+}
+
+@media (max-width: 1920px) {
+  .main {
+    .container {
+      .form-content {
+        .form-content-field {
+          font-size: calc(0.4rem + 0.8vw);
+        }
+      }
+      .social-media {
+          font-size: calc(1rem + 0.7vw);
+      }
+    }
+  }
+}
+</style>

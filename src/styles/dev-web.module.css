@@ -1,6 +1,6 @@
 .dev {
   display: flex;
   flex-direction: column;
-  font-size: calc(2rem + 1vw);
+  font-size: calc(2rem + 0.8vw);
   font-family: NexaRust;
 }
