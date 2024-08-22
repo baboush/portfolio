@@ -1,6 +1,7 @@
 .path {
   position: relative;
-  width: 10rem;
+  min-width: 10rem;
+  max-width: 14rem;
 }
 
 .path_svg {
@@ -16,9 +17,10 @@
   text-transform: uppercase;
   position: absolute;
   transform-origin: 0 0;
-  transform: rotate(-45deg);
-  left: 15%;
+  left: 20%;
   top: 60%;
+  transform: translate(50%, 50%);
+  transform: rotate(-45deg);
 }
 
 @media (max-width: 1920px) {
