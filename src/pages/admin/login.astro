@@ -1,0 +1,14 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { db, User } from 'astro:db';
+
+const name = await db.select().from(User)
+console.info(name)
+---
+
+<Layout title="Home">
+    {name.map((user) => (
+    <div>{user.username}</div>
+    ))
+    }
+</Layout>
