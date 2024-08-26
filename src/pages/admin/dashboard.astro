@@ -1,0 +1,146 @@
+---
+interface Message {
+  id: number;
+  name: string;
+  message: string;
+  createdAt: string;
+}
+
+import {db, Message, Project}from 'astro:db';
+import Layout from '../../layouts/Layout.astro';
+
+const messages = await db.select().from(Message).orderBy('createdAt').limit(10);
+
+const projects = await db.select().from(Project);
+
+---
+
+<Layout title="Dashboard">
+  <div class="container">
+    <div class="container-message">
+      <ul class="container-message-list">
+        {messages && messages.map((message: Message) => (
+        <li class="message-item">
+          <div class="message-item-main">
+            <span class="id">{message.id}</span>
+            {message.name}
+            <button class="btn delete">Delete</button>
+            <button class="btn show">Reply</button>
+          </div>
+          <div class="message-item-content paragraphe-hidden">
+            <div>{message.email}</div>
+            <div class="message-item-paragraphe">{message.message}</div>
+          </div>
+        </li>
+        ))}
+      </ul>
+    </div>
+    <div class="container-project">
+    </div>
+  </div>
+</Layout>
+
+<style>
+.container {
+  .container-message {
+    .container-message-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      width: 90%;
+      background: white;
+
+      .message-item {
+        position: relative;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        .message-item-main {
+          display: flex;
+          padding: 1rem;
+          height: 100%;
+          flex-direction: row;
+          align-items: center;
+          justify-content: space-evenly;
+          width: 100%;
+          font-size: 1.5rem;
+
+          .btn {
+            padding: 0.5rem;
+            font-size: 1rem;
+
+          }
+          .show {
+            background: skyblue;
+          }
+
+          .delete {
+            background: #f00;
+            color: white;
+          }
+        }
+
+        .message-item-content {
+          display: flex;
+          flex-direction: column;
+          padding: 1rem;
+          gap: 1rem;
+          font-size: 1.5rem;
+
+          .message-item-paragraphe {
+            max-width: 50%;
+            height: 100%;
+            word-wrap: break-word;
+          }
+        }
+        .paragraphe-hidden {
+          visibility: hidden;
+          height: 0;
+        }
+      }
+    }
+  }
+}
+</style>
+
+<script>
+const getMessage =document.querySelectorAll('.message-item');
+
+getMessage.forEach((message) => {
+  const show = message.querySelector('.show');
+
+  show.addEventListener('click', () => {
+    const paragraphe = message.querySelector('.message-item-content');
+    paragraphe.classList.toggle('paragraphe-hidden');
+  });
+});
+
+const btnDelete = document.querySelectorAll('.delete');
+
+btnDelete.forEach((btn) => {
+  btn.addEventListener('click', async () => {
+    const modal = document.createElement('div');
+    modal.innerHTML = `
+<div class="modal">
+  <div class="modal-content">
+    <p>Are you sure you want to delete this message?</p>
+    <button class="isDeleted">Oui</button>
+    <button class="notDeleted">Non</button>
+  </div>
+</div>
+`;
+
+    const isDeleted = modal.querySelector('.isDeleted');
+    isDeleted.addEventListener('click', async () => {
+      const message = btn.closest('.message-item');
+      const id = message.querySelector('.id').textContent;
+      await fetch(`../api/messages/${id}`, {
+      method: 'DELETE',
+      });
+      message.remove();
+      modal.remove();
+    });
+  document.body.appendChild(modal);
+  });
+});
+
+</script>
+
