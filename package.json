@@ -14,11 +14,16 @@
     "@astrojs/db": "^0.13.2",
     "@astrojs/node": "^8.3.3",
     "@astrojs/react": "^3.6.2",
+    "@lucia-auth/adapter-drizzle": "^1.1.0",
+    "@lucia-auth/adapter-sqlite": "^3.0.2",
     "@types/react": "^18.3.4",
     "@types/react-dom": "^18.3.0",
     "astro": "^4.14.5",
+    "lucia": "^3.2.0",
+    "lucia-adapter-astrodb": "^0.1.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
+    "react-hook-form": "^7.52.2",
     "typescript": "^5.5.4"
   }
 }
