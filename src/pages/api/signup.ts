@@ -1,7 +1,6 @@
-import { lucia } from "../../lib/auth.ts";
-
 import type { APIContext } from "astro";
 import { and, db, eq, User } from "astro:db";
+import { lucia } from "../../lib/auth";
 
 export async function POST(ctx: APIContext) {
   const formData = await ctx.request.formData();
@@ -19,7 +18,7 @@ export async function POST(ctx: APIContext) {
     .limit(1);
 
   if (!existingUser || existingUser.length === 0) {
-    return ctx.redirect("admin/login");
+    return ctx.redirect("/admin/login");
   }
 
   const user = existingUser[0];
