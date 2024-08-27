@@ -29,6 +29,7 @@ const Project = defineTable({
     updatedAt: column.date({ optional: true }),
     img: column.text({ optional: false }),
     link: column.text({ optional: false }),
+    tech: column.text({ optional: false }),
   },
 });
 

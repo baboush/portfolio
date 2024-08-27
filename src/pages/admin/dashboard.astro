@@ -16,6 +16,7 @@ interface Project {
 
 import {db, Message, Project}from 'astro:db';
 import Layout from '../../layouts/Layout.astro';
+import CreateProject from '../../components/CreateProject.tsx'
 
 const messages = await db.select().from(Message).orderBy('createdAt').limit(10);
 
@@ -25,6 +26,10 @@ const projects = await db.select().from(Project);
 
 <Layout title="Dashboard">
   <div class="container">
+    <button class="btn add-project-modal">Add Project</button>
+    <div class="add-project visibility">
+      <CreateProject />
+    </div>
     <div>
       <ul class="container-list">
         {messages && messages.map((message: Message) => (
@@ -59,10 +64,21 @@ const projects = await db.select().from(Project);
       </ul>
     </div>
   </div>
+
 </Layout>
 
 <style>
-.container {
+  .visibility {
+    display: none;
+  }
+
+  .btn.add-project-modal {
+    padding: 1rem;
+    font-size: 1.5rem;
+    background: beige;
+    margin-bottom: 1rem;
+  }
+
   .container-list {
     list-style: none;
     display: flex;
@@ -201,7 +217,7 @@ btnDeleteProject.forEach((btn) => {
     });
 
     const notDeleted = modal.querySelector('.notDeleted');
-      notDeleted.addEventListener('click', () => {
+    notDeleted.addEventListener('click', () => {
       modal.remove();
     });
 
@@ -209,6 +225,11 @@ btnDeleteProject.forEach((btn) => {
   });
 });
 
+const createProject = document.querySelector('.add-project-modal');
+createProject.addEventListener('click', () => {
+  const addProject = document.querySelector('.add-project');
+  addProject.classList.toggle('visibility');
+});
 
 </script>
 

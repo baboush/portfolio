@@ -13,6 +13,7 @@ export default async function seed() {
       description: "Une petite description de mon project",
       img: "../public/img.png",
       link: "#",
+      tech: "Javascript",
     },
     {
       id: 2,
@@ -20,6 +21,7 @@ export default async function seed() {
       description: "Une petite description de mon project",
       img: "../public/img.png",
       link: "#",
+      tech: "Javascript",
     },
     {
       id: 3,
@@ -27,6 +29,7 @@ export default async function seed() {
       description: "Une petite description de mon project",
       img: "../public/img.png",
       link: "#",
+      tech: "Javascript",
     },
     {
       id: 4,
@@ -34,6 +37,7 @@ export default async function seed() {
       description: "Une petite description de mon project",
       img: "../public/img.png",
       link: "#",
+      tech: "Javascript",
     },
   ]);
 }

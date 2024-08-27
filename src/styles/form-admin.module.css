@@ -1,0 +1,36 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  width: 50%;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 100;
+  padding: 2rem;
+  gap: 2rem;
+  .form_field {
+    font-size: 1.5rem;
+    width: 100%;
+
+    .form_field_label {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      gap: 1rem;
+
+      .form_field_input {
+        height: 2rem;
+        font-size: 1.2rem;
+      }
+    }
+  }
+
+  .btn {
+    padding: 1rem;
+    font-size: 1.5rem;
+    background-color: blue;
+    color: white;
+  }
+}
