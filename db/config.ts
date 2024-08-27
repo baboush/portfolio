@@ -24,11 +24,12 @@ const Project = defineTable({
   columns: {
     id: column.number({ propertyName: "id", primaryKey: true }),
     title: column.text({ unique: true, optional: false }),
-    description: column.text({ optional: false, unique: true }),
+    description: column.text({ optional: false }),
     createdAt: column.date({ default: NOW }),
     updatedAt: column.date({ optional: true }),
-    img: column.text({ optional: false, unique: true }),
-    link: column.text({ optional: false, unique: true }),
+    img: column.text({ optional: false }),
+    link: column.text({ optional: false }),
+    tech: column.text({ optional: false }),
   },
 });
 

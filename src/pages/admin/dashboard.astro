@@ -6,8 +6,18 @@ interface Message {
   createdAt: string;
 }
 
+interface Project {
+  id: number;
+  title: string;
+  description: string;
+  img: string;
+  link: string;
+}
+
 import {db, Message, Project}from 'astro:db';
 import Layout from '../../layouts/Layout.astro';
+import CreateProject from '../../components/CreateProject.tsx'
+import UpdateProject from '../../components/UpdateProject.tsx'
 
 const messages = await db.select().from(Message).orderBy('createdAt').limit(10);
 
@@ -17,15 +27,19 @@ const projects = await db.select().from(Project);
 
 <Layout title="Dashboard">
   <div class="container">
-    <div class="container-message">
-      <ul class="container-message-list">
+    <button class="btn add-project-modal">Add Project</button>
+    <div class="add-project visibility">
+      <CreateProject />
+    </div>
+    <div>
+      <ul class="container-list">
         {messages && messages.map((message: Message) => (
-        <li class="message-item">
-          <div class="message-item-main">
+        <li class="item">
+          <div class="item-main">
             <span class="id">{message.id}</span>
             {message.name}
-            <button class="btn delete">Delete</button>
-            <button class="btn show">Reply</button>
+            <button class="btn delete-message">Delete</button>
+            <button class="btn show">Fold</button>
           </div>
           <div class="message-item-content paragraphe-hidden">
             <div>{message.email}</div>
@@ -36,68 +50,98 @@ const projects = await db.select().from(Project);
       </ul>
     </div>
     <div class="container-project">
+      <ul class="container-list">
+        {projects && projects.map((project: Project) => (
+        <li class="item">
+          <div class="item-main">
+            <span class="id-project">{project.id}</span>
+            <div>{project.title}</div>
+            <div>{project.description}</div>
+            <button class="btn update">Update</button>
+            <button class="btn delete-project">Delete</button>
+            <div class="update-project visibility">
+              <UpdateProject id={+project.id}/>
+            </div>
+          </div>
+        </li>
+        ))}
+      </ul>
     </div>
   </div>
+
 </Layout>
 
 <style>
-.container {
-  .container-message {
-    .container-message-list {
-      list-style: none;
+.visibility {
+  display: none;
+}
+
+.btn.add-project-modal {
+  padding: 1rem;
+  font-size: 1.5rem;
+  background: beige;
+  margin-bottom: 1rem;
+}
+
+.container-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  width: 90%;
+  background: white;
+
+  .item {
+    position: relative;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    .item-main {
       display: flex;
-      flex-direction: column;
-      width: 90%;
-      background: white;
+      padding: 1rem;
+      height: 100%;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-evenly;
+      width: 100%;
+      font-size: 1.5rem;
 
-      .message-item {
-        position: relative;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        .message-item-main {
-          display: flex;
-          padding: 1rem;
-          height: 100%;
-          flex-direction: row;
-          align-items: center;
-          justify-content: space-evenly;
-          width: 100%;
-          font-size: 1.5rem;
+      .btn {
+        padding: 0.5rem;
+        font-size: 1rem;
 
-          .btn {
-            padding: 0.5rem;
-            font-size: 1rem;
+      }
+      .show {
+        background: skyblue;
+      }
 
-          }
-          .show {
-            background: skyblue;
-          }
+      .delete {
+        background: #f00;
+        color: white;
+      }
 
-          .delete {
-            background: #f00;
-            color: white;
-          }
-        }
-
-        .message-item-content {
-          display: flex;
-          flex-direction: column;
-          padding: 1rem;
-          gap: 1rem;
-          font-size: 1.5rem;
-
-          .message-item-paragraphe {
-            max-width: 50%;
-            height: 100%;
-            word-wrap: break-word;
-          }
-        }
-        .paragraphe-hidden {
-          visibility: hidden;
-          height: 0;
-        }
+      .update {
+        background: #0f0;
+        color: white;
       }
     }
+
+    .message-item-content {
+      display: flex;
+      flex-direction: column;
+      padding: 1rem;
+      gap: 1rem;
+      font-size: 1.5rem;
+
+      .message-item-paragraphe {
+        max-width: 50%;
+        height: 100%;
+        word-wrap: break-word;
+      }
+    }
+    .paragraphe-hidden {
+      visibility: hidden;
+      height: 0;
+    }
   }
+}
 }
 </style>
 
@@ -113,9 +157,9 @@ getMessage.forEach((message) => {
   });
 });
 
-const btnDelete = document.querySelectorAll('.delete');
+const btnDeleteMessage = document.querySelectorAll('.delete-message');
 
-btnDelete.forEach((btn) => {
+btnDeleteMessage.forEach((btn) => {
   btn.addEventListener('click', async () => {
     const modal = document.createElement('div');
     modal.innerHTML = `
@@ -130,17 +174,72 @@ btnDelete.forEach((btn) => {
 
     const isDeleted = modal.querySelector('.isDeleted');
     isDeleted.addEventListener('click', async () => {
-      const message = btn.closest('.message-item');
+      const message = btn.closest('.item');
       const id = message.querySelector('.id').textContent;
       await fetch(`../api/messages/${id}`, {
-      method: 'DELETE',
+        method: 'DELETE',
+
       });
       message.remove();
       modal.remove();
     });
-  document.body.appendChild(modal);
+
+    const notDeleted = modal.querySelector('.notDeleted');
+    notDeleted.addEventListener('click', () => {
+      modal.remove();
+    });
+
+    document.body.appendChild(modal);
   });
 });
 
-</script>
+const btnDeleteProject = document.querySelectorAll('.delete-project');
 
+btnDeleteProject.forEach((btn) => {
+  btn.addEventListener('click', async () => {
+    const modal = document.createElement('div');
+    modal.innerHTML = `
+<div class="modal">
+  <div class="modal-content">
+    <p>Are you sure you want to delete this project ?</p>
+    <button class="isDeleted">Oui</button>
+    <button class="notDeleted">Non</button>
+  </div>
+</div>
+`;
+
+    const isDeleted = modal.querySelector('.isDeleted');
+    isDeleted.addEventListener('click', async () => {
+      const message = btn.closest('.item');
+      const id = message.querySelector('.id-project').textContent;
+      await fetch(`../api/projects/${id}`, {
+        method: 'DELETE',
+
+      });
+      message.remove();
+      modal.remove();
+    });
+
+    const notDeleted = modal.querySelector('.notDeleted');
+    notDeleted.addEventListener('click', () => {
+      modal.remove();
+    });
+
+    document.body.appendChild(modal);
+  });
+});
+
+const createProject = document.querySelector('.add-project-modal');
+createProject.addEventListener('click', () => {
+  const addProject = document.querySelector('.add-project');
+  addProject.classList.toggle('visibility');
+});
+
+const updateProject = document.querySelectorAll('.update');
+
+updateProject.forEach((project) => project.addEventListener('click', () => {
+  const updateProject = document.querySelector('.update-project');
+  updateProject.classList.toggle('visibility');
+}));
+
+</script>
