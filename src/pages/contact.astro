@@ -8,9 +8,9 @@ if (Astro.request.method === "POST"){
 
   try {
     const body = await Astro.request.formData();
-    const name = body.get("name");
-    const email = body.get("email");
-    const message = body.get("message");
+    const name = body.get("name") as string;
+    const email = body.get("email") as string;
+    const message = body.get("message") as string;
 
     if(typeof name === "string" || typeof email === "string" || typeof message === "string") {
       await db.insert(Message).values({name, email, message});

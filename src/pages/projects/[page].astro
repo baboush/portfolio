@@ -4,27 +4,35 @@ import Logo from '../../components/Logo';
 import Tech from '../../components/Tech';
 import ProjectTitle from '../../components/ProjectTitle';
 import { Image } from 'astro:assets';
-import PaginatonPrev from '../../components/PaginationPrev';
 import LinkProject from '../../components/LinkProject';
 import NumberProject from '../../components/NumberProject';
 import {db, Project, desc} from 'astro:db';
 
+interface Page {
+  data: Project[];
+  url: {
+    prev: string | null;
+    next: string | null;
+  };
+}
+
 interface Project {
   id: number;
   title: string;
-  content: string;
+  description: string;
+  img: string;
   link: string;
   tech: string;
 }
 
 export const prerender = true;
 
-export async function getStaticPaths({paginate}) {
+export async function getStaticPaths({paginate}:any) {
   const data = await db.select().from(Project).orderBy(desc(Project.id));
   return paginate(data, {pageSize: 1})
 }
 
-const { page } = Astro.props;
+const { page } = Astro.props as {page:Page};
 ---
 
 <Layout title="Projects">
