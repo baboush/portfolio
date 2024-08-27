@@ -15,10 +15,16 @@ interface Project {
   link: string;
 }
 
+
 import {db, Message, Project, desc}from 'astro:db';
 import Layout from '../../layouts/Layout.astro';
 import CreateProject from '../../components/CreateProject.tsx'
 import UpdateProject from '../../components/UpdateProject.tsx'
+import {onRequest} from '../../utils/middlewares/auth.middleware.ts';
+
+export const middleware = [onRequest];
+
+const session = Astro.request.headers.get('cookie');
 
 const messages = await db.select().from(Message).orderBy(desc(Message.createdAt)).limit(10);
 
@@ -26,6 +32,7 @@ const projects = await db.select().from(Project);
 ---
 
 <Layout title="Dashboard">
+  {session  ? (
   <div class="container">
     <button class="btn add-project-modal">Add Project</button>
     <div class="add-project visibility">
@@ -68,6 +75,11 @@ const projects = await db.select().from(Project);
       </ul>
     </div>
   </div>
+) : (
+  <div>
+    <h1>Not authorized</h1>
+  </div>
+)}
 
 </Layout>
 
