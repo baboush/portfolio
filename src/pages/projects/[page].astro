@@ -7,6 +7,7 @@ import { Image } from 'astro:assets';
 import PaginatonPrev from '../../components/PaginationPrev';
 import LinkProject from '../../components/LinkProject';
 import NumberProject from '../../components/NumberProject';
+import {db, Project, desc} from 'astro:db';
 
 interface Project {
   id: number;
@@ -16,34 +17,10 @@ interface Project {
   tech: string;
 }
 
-export function getStaticPaths({paginate}) {
-  const  data  = [
-    {
-      id: 1,
-      title: 'Project title',
-      content: 'description',
-      link: '#',
-      img: '/public/img.png',
-      tech: 'JavaScript'
-    },
-    {
-      id: 2,
-      title: 'title2',
-      content: 'description',
-      link: '#',
-      img: '/public/img.png',
-      tech: 'lorem ipsum'
-    },
-    {
-      id: 3,
-      title: 'title3',
-      content: 'description',
-      link: '#',
-      img: '/public/img.png',
-      tech: 'JavaScript'
-    },
-  ]
+export const prerender = true;
 
+export async function getStaticPaths({paginate}) {
+  const data = await db.select().from(Project).orderBy(desc(Project.id));
   return paginate(data, {pageSize: 1})
 }
 
@@ -79,7 +56,7 @@ const { page } = Astro.props;
         <Image src={project.img} alt={project.title}  width="650" height="420" />
         <div class="container-content-description">
           <h2 class="container-content-title">DESCRIPTION</h2>
-          <p>{project.content}</p>
+          <p>{project.description}</p>
         </div>
       </div>
       <div class="container-content-tech">
@@ -128,6 +105,7 @@ main {
     font-size:calc(2rem + 1vw);
     transform: translateY(-50%);
   }
+
 
   .container {
     postiton: relative;
