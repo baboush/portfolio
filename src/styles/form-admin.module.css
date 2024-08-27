@@ -34,3 +34,29 @@
     color: white;
   }
 }
+
+.form_update {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  z-index: 100;
+  background-color: white;
+  padding: 2rem;
+  gap: 2rem;
+  .form_field {
+    font-size: 1.5rem;
+    width: 100%;
+
+    .form_field_label {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      gap: 1rem;
+
+      .form_field_input {
+        height: 2rem;
+        font-size: 1.2rem;
+      }
+    }
+  }
+}
